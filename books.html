@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <title>Books – Aresio Souza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold:       #c9a84c;
+      --gold-light: #e2c97e;
+      --dark:       #0f0f0f;
+      --dark-2:     #1a1a1a;
+      --dark-3:     #242424;
+      --text:       #e8e4dc;
+      --muted:      #9a9490;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', system-ui, sans-serif;
+      --max-w:      780px;
+      --section-gap: clamp(3rem, 8vw, 5rem);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: clamp(15px, 1.6vw, 17px);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: var(--serif); line-height: 1.2; }
+    p { margin-bottom: 1.1em; }
+    p:last-child { margin-bottom: 0; }
+    a { color: var(--gold); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--gold-light); text-decoration: underline; }
+
+    /* ─── Site Navigation ───────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10,10,10,.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,168,76,.12);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      text-decoration: none;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav-logo:hover { text-decoration: none; opacity: .85; }
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+      mix-blend-mode: screen;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(1.25rem, 3vw, 2rem);
+    }
+    .nav-item {
+      font-size: .73rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-item:hover, .nav-item.active { color: var(--gold); text-decoration: none; }
+
+    .dropdown { position: relative; }
+    .dropdown-toggle {
+      font-family: var(--sans);
+      font-size: .73rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      transition: color .2s;
+    }
+    .dropdown-toggle:hover { color: var(--gold); }
+    .caret { font-size: .6rem; }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: #181818;
+      border: 1px solid rgba(201,168,76,.2);
+      border-radius: 4px;
+      padding: 1rem 0 .4rem;
+      min-width: 130px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s, transform .18s;
+    }
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: .55rem 1.25rem;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s, background .15s;
+    }
+    .dropdown-menu a:hover {
+      color: var(--gold);
+      background: rgba(201,168,76,.05);
+      text-decoration: none;
+    }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--muted);
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .nav-toggle:hover span { background: var(--gold); }
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0; right: 0;
+        background: rgba(12,12,12,.98);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        border-bottom: 1px solid rgba(201,168,76,.12);
+        padding: .5rem 0 1rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-item, .dropdown-toggle {
+        padding: .75rem clamp(1.25rem, 5vw, 2rem);
+        width: 100%;
+      }
+      .dropdown-menu {
+        position: static;
+        transform: none !important;
+        opacity: 1;
+        pointer-events: auto;
+        background: rgba(201,168,76,.04);
+        border: none;
+        border-left: 2px solid rgba(201,168,76,.15);
+        border-radius: 0;
+        margin-left: clamp(2rem, 7vw, 3rem);
+        display: none;
+        padding: .25rem 0;
+      }
+      .dropdown.open .dropdown-menu { display: block; }
+      .dropdown-menu a { padding: .5rem 1rem; }
+    }
+
+    /* ─── Page Header ────────────────────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      padding: clamp(3rem, 8vw, 5rem) 1.5rem clamp(1.5rem, 4vw, 2.5rem);
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .page-header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+    .header-rule {
+      width: 3rem;
+      height: 1px;
+      background: var(--gold);
+      margin: 1rem auto 1.25rem;
+      opacity: .7;
+    }
+    .page-header .subtitle {
+      color: var(--muted);
+      font-size: clamp(.85rem, 1.6vw, 1rem);
+      letter-spacing: .04em;
+      margin: 0;
+    }
+
+    /* ─── Filter tabs ────────────────────────────────────────────────── */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: .75rem;
+      padding: 0 1.5rem clamp(1rem, 3vw, 1.75rem);
+    }
+    .filter-btn {
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .45rem 1.2rem;
+      border-radius: 50px;
+      border: 1px solid rgba(201,168,76,.25);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .filter-btn.active {
+      background: rgba(201,168,76,.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── Book count ─────────────────────────────────────────────────── */
+    .books-count {
+      text-align: center;
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── Book List ──────────────────────────────────────────────────── */
+    .books-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem clamp(3rem, 8vw, 5rem);
+    }
+    .book-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: 6px;
+      border: 1px solid rgba(201,168,76,.08);
+      background: var(--dark-2);
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .2s, transform .18s, box-shadow .2s;
+    }
+    .book-card:hover {
+      border-color: rgba(201,168,76,.35);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,0,0,.35);
+      text-decoration: none;
+      color: inherit;
+    }
+    .book-card.hidden { display: none; }
+
+    /* cover */
+    .book-cover-wrap { flex-shrink: 0; width: 90px; }
+    .book-cover {
+      width: 90px;
+      height: 135px;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
+      border-radius: 3px;
+      display: block;
+      background: var(--dark-3);
+    }
+    .book-cover-placeholder {
+      width: 90px;
+      height: 135px;
+      border: 1.5px solid rgba(201,168,76,.3);
+      border-radius: 3px;
+      background: var(--dark-3);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: rgba(201,168,76,.3);
+      font-size: 1.8rem;
+    }
+
+    /* info */
+    .book-info {
+      flex: 1;
+      min-width: 0;
+      padding-top: .25rem;
+    }
+    .book-title {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: .3rem;
+    }
+    .book-author {
+      font-size: .82rem;
+      color: var(--muted);
+      letter-spacing: .03em;
+      margin-bottom: .75rem;
+    }
+    .book-genre {
+      display: inline-block;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: 3px;
+      padding: .15rem .5rem;
+      margin-bottom: .75rem;
+    }
+    .book-goodreads {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .72rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,.45);
+      transition: color .2s;
+    }
+    .book-card:hover .book-goodreads { color: var(--gold); }
+    .book-goodreads svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+    /* favorite heart */
+    .book-star {
+      flex-shrink: 0;
+      font-size: 1rem;
+      color: var(--gold);
+      opacity: .75;
+      margin-top: .3rem;
+      line-height: 1;
+    }
+
+    /* ─── Social icons ───────────────────────────────────────────── */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.75rem;
+      padding: clamp(2.5rem, 6vw, 4rem) 1.5rem clamp(2rem, 5vw, 3rem);
+    }
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: rgba(255,255,255,.55);
+      transition: color .2s, transform .15s;
+      text-decoration: none;
+    }
+    .social-icons a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .social-icons svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────────── */
+    .footer-strip {
+      background: var(--dark-2);
+      border-top: 1px solid rgba(201,168,76,.1);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="about.html"><img src="logo.png" alt="Aresio Souza" class="nav-logo-img" /></a>
+    <div class="nav-links" id="nav-links">
+      <a href="about.html" class="nav-item">About</a>
+      <a href="blog.html" class="nav-item">Blog</a>
+      <div class="dropdown">
+        <button class="dropdown-toggle" aria-haspopup="true">Lists <span class="caret">&#9662;</span></button>
+        <div class="dropdown-menu">
+          <a href="bookmarks.html">Bookmarks</a>
+          <a href="books.html">Books</a>
+          <a href="tools.html">Tools</a>
+        </div>
+      </div>
+      <a href="principles.html" class="nav-item">Principles</a>
+      <a href="tinkering.html" class="nav-item">Tinkering</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-header">
+  <h1>Books</h1>
+  <div class="header-rule"></div>
+  <p class="subtitle">Take a peek at my bookshelf</p>
+</header>
+
+<div class="filter-tabs">
+  <button class="filter-btn active" data-filter="all">&#128218; All</button>
+  <button class="filter-btn" data-filter="fav">&#9829; Favorites</button>
+</div>
+
+<p class="books-count" id="books-count">62 books</p>
+
+<div class="books-wrap" id="books-wrap">
+            <a class="book-card" href="https://www.goodreads.com/book/show/123005124" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1693515725i/123005124.jpg" alt="The 32 Principles" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The 32 Principles</div>
+                <div class="book-author">Rener Gracie</div>
+                <span class="book-genre">Martial Arts</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+4-Hour+Workweek+Timothy+Ferriss" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1442957271i/368593.jpg" alt="The 4-Hour Workweek" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The 4-Hour Workweek</div>
+      <div class="book-author">Timothy Ferriss</div>
+      <span class="book-genre">Productivity</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+7+Habits+of+Highly+Effective+People+Stephen+Covey" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1421842784i/36072.jpg" alt="The 7 Habits of Highly Effective People" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The 7 Habits of Highly Effective People</div>
+      <div class="book-author">Stephen R. Covey</div>
+      <span class="book-genre">Classic</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/60705919" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1648460216i/60705919.jpg" alt="7 Rules of Power: Surprising—but True—Advice on How to Get Things Done and Advance Your Career" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">7 Rules of Power: Surprising—but True—Advice on How to Get Things Done and Advance Your Career</div>
+                <div class="book-author">Jeffrey Pfeffer</div>
+                <span class="book-genre">Leadership</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Alchemist+Paulo+Coelho" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1483412266i/865.jpg" alt="The Alchemist" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Alchemist</div>
+      <div class="book-author">Paulo Coelho</div>
+      <span class="book-genre">Fiction</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/25666050" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1454296875i/25666050.jpg" alt="Algorithms to Live By: The Computer Science of Human Decisions" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Algorithms to Live By: The Computer Science of Human Decisions</div>
+                <div class="book-author">Brian Christian & Tom Griffiths</div>
+                <span class="book-genre">Science</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/13530973" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1352422827i/13530973.jpg" alt="Antifragile: Things That Gain from Disorder" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Antifragile: Things That Gain from Disorder</div>
+      <div class="book-author">Nassim Nicholas Taleb</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/25707" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1388369176i/25707.jpg" alt="Aquinas&#x27;s Shorter Summa" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Aquinas&#x27;s Shorter Summa: Saint Thomas&#x27;s Own Concise Version of His Summa Theologica</div>
+      <div class="book-author">Thomas Aquinas</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Art+Science+Facilitation+Marsha+Acker" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1609955500i/56575741.jpg" alt="The Art &amp; Science of Facilitation" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Art &amp; Science of Facilitation</div>
+      <div class="book-author">Marsha Acker</div>
+      <span class="book-genre">Leadership</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/43722897" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1561638191i/43722897.jpg" alt="The Art of Statistics: How to Learn from Data" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Art of Statistics: How to Learn from Data</div>
+      <div class="book-author">David Spiegelhalter</div>
+      <span class="book-genre">Statistics</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/10534" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1630683326i/10534.jpg" alt="The Art of War" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Art of War</div>
+      <div class="book-author">Sun Tzu</div>
+      <span class="book-genre">Classic / Strategy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/9402297" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1665067245i/9402297.jpg" alt="The Bed of Procrustes: Philosophical and Practical Aphorisms" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Bed of Procrustes: Philosophical and Practical Aphorisms</div>
+      <div class="book-author">Nassim Nicholas Taleb</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Beginner%27s+Guide+to+Stoicism+Matthew+Van+Natta" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1569297710l/52085903.jpg" alt="The Beginner's Guide to Stoicism" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Beginner&#x2019;s Guide to Stoicism: Tools for Emotional Resilience and Positivity</div>
+      <div class="book-author">Matthew Van Natta</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/991544" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1739516611i/991544.jpg" alt="Bhagavad-Gita As It Is" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Bhagavad-Gita As It Is</div>
+      <div class="book-author">A.C. Bhaktivedanta Swami Prabhupada</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/242472" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1714172313i/242472.jpg" alt="The Black Swan: The Impact of the Highly Improbable" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Black Swan: The Impact of the Highly Improbable</div>
+      <div class="book-author">Nassim Nicholas Taleb</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=Blink+Malcolm+Gladwell" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1440763417i/40102.jpg" alt="Blink" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Blink</div>
+      <div class="book-author">Malcolm Gladwell</div>
+      <span class="book-genre">Psychology</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=Blue+Ocean+Strategy+W+Chan+Kim" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1416445924i/4898.jpg" alt="Blue Ocean Strategy" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Blue Ocean Strategy</div>
+      <div class="book-author">W. Chan Kim</div>
+      <span class="book-genre">Business</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/36204378" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1516890908i/36204378.jpg" alt="The Book of Why" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Book of Why: The New Science of Cause and Effect</div>
+      <div class="book-author">Judea Pearl &amp; Dana Mackenzie</div>
+      <span class="book-genre">Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/27164550" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1455502089i/27164550.jpg" alt="Causal Inference in Statistics: A Primer" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Causal Inference in Statistics: A Primer</div>
+      <div class="book-author">Judea Pearl, Madelyn Glymour &amp; Nicholas P. Jewell</div>
+      <span class="book-genre">Statistics</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/174276" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1328040175i/174276.jpg" alt="Causality" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Causality: Models, Reasoning, and Inference</div>
+      <div class="book-author">Judea Pearl</div>
+      <span class="book-genre">Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/41571759" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1551281961i/41571759.jpg" alt="Conscious: A Brief Guide to the Fundamental Mystery of the Mind" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Conscious: A Brief Guide to the Fundamental Mystery of the Mind</div>
+                <div class="book-author">Annaka Harris</div>
+                <span class="book-genre">Science</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/840" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1442460745i/840.jpg" alt="The Design of Everyday Things" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Design of Everyday Things</div>
+      <div class="book-author">Don Norman</div>
+      <span class="book-genre">Design</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/15798827" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1344619027i/15798827.jpg" alt="The Essential Dogen: Writings of the Great Zen Master" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Essential Dogen: Writings of the Great Zen Master</div>
+                <div class="book-author">Kazuaki Tanahashi (Ed.)</div>
+                <span class="book-genre">Philosophy</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/255127" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1587722419i/255127.jpg" alt="The Fifth Discipline: The Art &amp; Practice of The Learning Organization" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Fifth Discipline: The Art &amp; Practice of The Learning Organization</div>
+      <div class="book-author">Peter M. Senge</div>
+      <span class="book-genre">Systems Thinking</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/38315" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1388180506i/38315.jpg" alt="Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets</div>
+      <div class="book-author">Nassim Nicholas Taleb</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Great+Mental+Models+Shane+Parrish" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1551734725i/44245196.jpg" alt="The Great Mental Models" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Great Mental Models: General Thinking Concepts</div>
+      <div class="book-author">Shane Parrish</div>
+      <span class="book-genre">Thinking</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/1923820.The_Holy_Bible" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1631816305i/1923820.jpg" alt="The Holy Bible: King James Version" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Holy Bible: King James Version</div>
+                <div class="book-author">Various Authors</div>
+                <span class="book-genre">Sacred Text</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/210084984" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1747954327i/210084984.jpg" alt="How Countries Go Broke: The Big Cycle" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">How Countries Go Broke: The Big Cycle</div>
+                <div class="book-author">Ray Dalio</div>
+                <span class="book-genre">Economics</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=How+Not+to+Die+Michael+Greger" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1436292289i/25663961.jpg" alt="How Not to Die" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">How Not to Die</div>
+      <div class="book-author">Michael Greger</div>
+      <span class="book-genre">Health &amp; Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/123286515" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1681791719i/123286515.jpg" alt="How to Be Healthy: An Ancient Guide to Wellness" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">How to Be Healthy: An Ancient Guide to Wellness</div>
+      <div class="book-author">Galen (ed. Katherine Van Schaik)</div>
+      <span class="book-genre">Ancient Wisdom</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/51066664" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1760749996i/51066664.jpg" alt="How to Decide: Simple Tools for Making Better Choices" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">How to Decide: Simple Tools for Making Better Choices</div>
+      <div class="book-author">Annie Duke</div>
+      <span class="book-genre">Decision Making</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=How+to+Take+Smart+Notes+Sonke+Ahrens" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1488937626i/34507927.jpg" alt="How to Take Smart Notes" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">How to Take Smart Notes</div>
+      <div class="book-author">S&#xF6;nke Ahrens</div>
+      <span class="book-genre">Productivity</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=How+to+Win+Friends+and+Influence+People+Dale+Carnegie" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1442726934i/4865.jpg" alt="How to Win Friends and Influence People" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">How to Win Friends and Influence People</div>
+      <div class="book-author">Dale Carnegie</div>
+      <span class="book-genre">Classic</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/2615" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1347654027i/2615.jpg" alt="The Innovator's Dilemma: The Revolutionary Book that Will Change the Way You Do Business" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Innovator's Dilemma: The Revolutionary Book that Will Change the Way You Do Business</div>
+                <div class="book-author">Clayton M. Christensen</div>
+                <span class="book-genre">Business</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/3487850" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1347670006i/3487850.jpg" alt="The Innovator's Prescription: A Disruptive Solution for Health Care" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Innovator's Prescription: A Disruptive Solution for Health Care</div>
+                <div class="book-author">Clayton M. Christensen</div>
+                <span class="book-genre">Health</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/45027848" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1555081661i/45027848.jpg" alt="Mental Models: 30 Thinking Tools that Separate the Average from the Exceptional" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Mental Models: 30 Thinking Tools that Separate the Average from the Exceptional</div>
+                <div class="book-author">Peter Hollins</div>
+                <span class="book-genre">Self-Help</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/17986418" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1395613778i/17986418.jpg" alt="Naked Statistics: Stripping the Dread from the Data" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Naked Statistics: Stripping the Dread from the Data</div>
+      <div class="book-author">Charles Wheelan</div>
+      <span class="book-genre">Statistics</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/3450744" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1348322381i/3450744.jpg" alt="Nudge: Improving Decisions About Health, Wealth, and Happiness" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Nudge: Improving Decisions About Health, Wealth, and Happiness</div>
+      <div class="book-author">Richard H. Thaler &amp; Cass R. Sunstein</div>
+      <span class="book-genre">Behavioral Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/61153739" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1700067079i/61153739.jpg" alt="Outlive: The Science &amp; Art of Longevity" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Outlive: The Science &amp; Art of Longevity</div>
+      <div class="book-author">Peter Attia &amp; Bill Gifford</div>
+      <span class="book-genre">Health &amp; Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/944652" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1387744370i/944652.jpg" alt="Poor Charlie's Almanack: The Essential Wit and Wisdom of Charles T. Munger" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Poor Charlie's Almanack: The Essential Wit and Wisdom of Charles T. Munger</div>
+                <div class="book-author">Charles T. Munger</div>
+                <span class="book-genre">Business</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Power+of+Habit+Charles+Duhigg" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1545854312i/12609433.jpg" alt="The Power of Habit" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Power of Habit</div>
+      <div class="book-author">Charles Duhigg</div>
+      <span class="book-genre">Psychology</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/6708" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1689947880i/6708.jpg" alt="The Power of Now: A Guide to Spiritual Enlightenment" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Power of Now: A Guide to Spiritual Enlightenment</div>
+                <div class="book-author">Eckhart Tolle</div>
+                <span class="book-genre">Spirituality</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/23500254" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1417188663i/23500254.jpg" alt="The Power of Vulnerability: Teachings of Authenticity, Connection, and Courage" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Power of Vulnerability: Teachings of Authenticity, Connection, and Courage</div>
+                <div class="book-author">Brené Brown</div>
+                <span class="book-genre">Psychology</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/32793289" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1477571614i/32793289.jpg" alt="The Prince" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Prince</div>
+      <div class="book-author">Niccol&#xF2; Machiavelli</div>
+      <span class="book-genre">Classic / Strategy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/34536488" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1503365703i/34536488.jpg" alt="Principles: Life and Work" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Principles: Life and Work</div>
+                <div class="book-author">Ray Dalio</div>
+                <span class="book-genre">Business</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/174277" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1348249497i/174277.jpg" alt="Probabilistic Reasoning in Intelligent Systems" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference</div>
+      <div class="book-author">Judea Pearl</div>
+      <span class="book-genre">Computer Science</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/24761454" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1538433591i/24761454.jpg" alt="The Psychology of Human Misjudgement" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Psychology of Human Misjudgement</div>
+                <div class="book-author">Charlie Munger</div>
+                <span class="book-genre">Psychology</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/41881472" target="_blank" rel="noopener" data-fav="false">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1581527774i/41881472.jpg" alt="The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness</div>
+                <div class="book-author">Morgan Housel</div>
+                <span class="book-genre">Finance</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/13588394" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1355058876i/13588394.jpg" alt="The Signal and the Noise: Why So Many Predictions Fail&#x2014;But Some Don&#x2019;t" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Signal and the Noise: Why So Many Predictions Fail&#x2014;But Some Don&#x2019;t</div>
+      <div class="book-author">Nate Silver</div>
+      <span class="book-genre">Statistics</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/36064445" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1510319798i/36064445.jpg" alt="Skin in the Game: The Hidden Asymmetries in Daily Life" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Skin in the Game: The Hidden Asymmetries in Daily Life</div>
+      <div class="book-author">Nassim Nicholas Taleb</div>
+      <span class="book-genre">Philosophy</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=The+Social+Leap+William+Von+Hippel" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1533605640i/41061652.jpg" alt="The Social Leap" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Social Leap</div>
+      <div class="book-author">William Von Hippel</div>
+      <span class="book-genre">Psychology</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=Sprint+Jake+Knapp" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1457284924i/25814544.jpg" alt="Sprint" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Sprint</div>
+      <div class="book-author">Jake Knapp</div>
+      <span class="book-genre">Design &amp; Process</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/583785" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1176010078i/583785.jpg" alt="The Systems Bible: The Beginner&#x2019;s Guide to Systems Large and Small" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Systems Bible: The Beginner&#x2019;s Guide to Systems Large and Small</div>
+      <div class="book-author">John Gall</div>
+      <span class="book-genre">Systems Thinking</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/42041784" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1537854462i/42041784.jpg" alt="The Systems Thinker: Essential Thinking Skills" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">The Systems Thinker: Essential Thinking Skills</div>
+      <div class="book-author">Albert Rutherford</div>
+      <span class="book-genre">Systems Thinking</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/57858" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1386920607i/57858.jpg" alt="Tao of Jeet Kune Do" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">Tao of Jeet Kune Do</div>
+                <div class="book-author">Bruce Lee</div>
+                <span class="book-genre">Martial Arts</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/67896" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1333578861i/67896.jpg" alt="Tao Te Ching" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Tao Te Ching</div>
+      <div class="book-author">Lao Tzu</div>
+      <span class="book-genre">Classic</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/35957157" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1513351600i/35957157.jpg" alt="Thinking in Bets: Making Smarter Decisions When You Don&#x2019;t Have All the Facts" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Thinking in Bets: Making Smarter Decisions When You Don&#x2019;t Have All the Facts</div>
+      <div class="book-author">Annie Duke</div>
+      <span class="book-genre">Decision Making</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/3828902" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1390169859i/3828902.jpg" alt="Thinking In Systems: A Primer" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Thinking In Systems: A Primer</div>
+      <div class="book-author">Donella H. Meadows</div>
+      <span class="book-genre">Systems Thinking</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=Thinking+Fast+and+Slow+Daniel+Kahneman" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1317793965i/11468377.jpg" alt="Thinking, Fast and Slow" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Thinking, Fast and Slow</div>
+      <div class="book-author">Daniel Kahneman</div>
+      <span class="book-genre">Psychology</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/search?q=This+is+Marketing+Seth+Godin" target="_blank" rel="noopener" data-fav="false">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1529247040i/40549476.jpg" alt="This is Marketing" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">This is Marketing</div>
+      <div class="book-author">Seth Godin</div>
+      <span class="book-genre">Marketing</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/125321030-universal-principles-of-design-updated-and-expanded-third-edition" target="_blank" rel="noopener" data-fav="true">
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1682157791i/125321030.jpg" alt="Universal Principles of Design: 200 Ways to Increase Appeal, Enhance Usability, Influence Perception, and Make Better Design Decisions" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="book-cover-placeholder">&#128214;</div>
+    </div>
+    <div class="book-info">
+      <div class="book-title">Universal Principles of Design: 200 Ways to Increase Appeal, Enhance Usability, Influence Perception, and Make Better Design Decisions</div>
+      <div class="book-author">William Lidwell, Kritina Holden &amp; Jill Butler</div>
+      <span class="book-genre">Design</span>
+      <div class="book-goodreads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Goodreads
+      </div>
+    </div>
+    <div class="book-star">&#9829;</div>
+  </a>
+            <a class="book-card" href="https://www.goodreads.com/book/show/514210" target="_blank" rel="noopener" data-fav="true">
+              <div class="book-cover-wrap">
+                <img class="book-cover" src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1348297121i/514210.jpg" alt="The Way of Zen" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                <div class="book-cover-placeholder">&#128214;</div>
+              </div>
+              <div class="book-info">
+                <div class="book-title">The Way of Zen</div>
+                <div class="book-author">Alan Watts</div>
+                <span class="book-genre">Philosophy</span>
+                <div class="book-goodreads">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  View on Goodreads
+                </div>
+              </div>
+              <div class="book-star">&#9829;</div>
+            </a>
+          </div><!-- /books-wrap -->
+
+<div class="social-icons">
+  <a href="https://www.linkedin.com/in/aresio-souza-4508ba18/" target="_blank" rel="noopener" aria-label="LinkedIn">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none">
+      <circle cx="4.5" cy="4.5" r="2"/>
+      <path d="M3 8.5h3V21H3z"/>
+      <path d="M9 8.5h3v1.8c.8-1.3 2.2-2.1 3.9-2.1 3.1 0 4.1 2.1 4.1 5.1V21h-3v-6.8c0-1.6-.6-2.7-2-2.7-1.5 0-2 1.1-2 2.8V21H9z"/>
+    </svg>
+  </a>
+  <a href="https://www.facebook.com/avsouza" target="_blank" rel="noopener" aria-label="Facebook">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+  </a>
+  <a href="https://www.instagram.com/aresiosouza/" target="_blank" rel="noopener" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/>
+    </svg>
+  </a>
+  <a href="https://x.com/aresiosouza" target="_blank" rel="noopener" aria-label="X">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="none" fill="currentColor">
+      <path d="M17.751 3h3.067l-6.7 7.658L22 21h-6.172l-4.833-6.317L5.464 21H2.395l7.167-8.193L2 3h6.328l4.37 5.777L17.751 3zm-1.076 16.172h1.7L7.404 4.742H5.58l11.095 14.43z"/>
+    </svg>
+  </a>
+</div>
+
+<div class="footer-strip">
+  &copy; 2026 Aresio Souza &nbsp;&middot;&nbsp; Rio de Janeiro &rarr; New York &rarr; New Jersey &rarr; California
+</div>
+
+<script>
+  // Filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.book-card');
+  const countEl = document.getElementById('books-count');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const show = filter === 'all' || (filter === 'fav' && card.dataset.fav === 'true');
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      countEl.textContent = visible + (visible === 1 ? ' book' : ' books');
+    });
+  });
+
+  // Mobile nav
+  const toggle = document.getElementById('nav-toggle');
+  const links  = document.getElementById('nav-links');
+  toggle?.addEventListener('click', () => links.classList.toggle('open'));
+
+  document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      if (window.innerWidth <= 640) {
+        e.stopPropagation();
+        btn.closest('.dropdown').classList.toggle('open');
+      }
+    });
+  });
+
+  // Mark active page
+  const path = location.pathname.split('/').pop() || 'about.html';
+  document.querySelectorAll('.nav-item').forEach(a => {
+    if (a.getAttribute('href') === path) a.classList.add('active');
+  });
+</script>
+</body>
+</html>

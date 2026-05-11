@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <title>About – Aresio Souza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #c9a84c;
+      --gold-light: #e2c97e;
+      --dark:       #0f0f0f;
+      --dark-2:     #1a1a1a;
+      --dark-3:     #242424;
+      --text:       #e8e4dc;
+      --muted:      #9a9490;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', system-ui, sans-serif;
+      --max-w:      780px;
+      --section-gap: clamp(3rem, 8vw, 5rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: clamp(15px, 1.6vw, 17px);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Typography helpers ────────────────────────────────────── */
+    h1, h2, h3 { font-family: var(--serif); line-height: 1.2; }
+
+    p { margin-bottom: 1.1em; }
+    p:last-child { margin-bottom: 0; }
+
+    a { color: var(--gold); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--gold-light); text-decoration: underline; }
+
+    /* ─── Hero ──────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: clamp(320px, 45vw, 500px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: clamp(2rem, 6vw, 4rem) 1.5rem clamp(2.5rem, 6vw, 4rem);
+      /* Save your composite photo as hero-bg.jpg in the same folder */
+      background-image: url('hero-bg.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-color: #0a0a0a; /* fallback if image not found */
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Dark gradient overlay — keeps text readable over any photo */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,8,8,.92) 0%,
+        rgba(8,8,8,.45) 45%,
+        rgba(8,8,8,.15) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .75rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .6rem;
+    }
+
+    .hero-rule {
+      width: 3rem;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto .9rem;
+    }
+
+    .hero-sub {
+      font-size: clamp(.8rem, 1.4vw, .95rem);
+      font-weight: 300;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── Page layout ───────────────────────────────────────────── */
+    .page-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+    }
+
+    /* ─── Intro (photo + text) ──────────────────────────────────── */
+    .intro {
+      padding: var(--section-gap) 0;
+      border-bottom: 1px solid rgba(201,168,76,.15);
+    }
+
+    /* Top row: image left, lead paragraph right */
+    .intro-top {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+      align-items: start;
+      margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+    }
+
+    /* Cristo image */
+    .headshot-wrap {
+      width: 100%;
+    }
+    .cristo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      object-position: center top;
+      /* transparent background blends with --dark page color */
+    }
+
+    /* Lead paragraph — serif, larger, sits right of image */
+    .intro-lead .lead {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      line-height: 1.65;
+      color: var(--text);
+      margin-bottom: 0;
+    }
+
+    /* Remaining paragraphs — full width below both columns */
+    .intro-body {
+      width: 100%;
+    }
+    .intro-body p {
+      color: rgba(232,228,220,.8);
+      font-weight: 300;
+    }
+
+    /* Stack on mobile */
+    @media (max-width: 580px) {
+      .intro-top {
+        grid-template-columns: 1fr;
+      }
+      .headshot-wrap {
+        max-width: 200px;
+        margin: 0 auto;
+      }
+    }
+
+    /* ─── Section ───────────────────────────────────────────────── */
+    .section {
+      padding: var(--section-gap) 0;
+      border-bottom: 1px solid rgba(201,168,76,.1);
+    }
+    .section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .75rem;
+    }
+
+    .section h2 {
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .section p {
+      color: rgba(232,228,220,.82);
+      font-weight: 300;
+    }
+
+    /* ─── Highlight card (Max Payne) ────────────────────────────── */
+    .card {
+      background: var(--dark-2);
+      border: 1px solid rgba(201,168,76,.25);
+      border-left: 3px solid var(--gold);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1.25rem;
+    }
+    .card p { color: rgba(232,228,220,.8); font-weight: 300; }
+
+    /* ─── Image gold borders ────────────────────────────────────── */
+
+    /* Rectangular border — for photos with solid/opaque backgrounds */
+    .img-gold-border {
+      border: 1.5px solid var(--gold);
+    }
+    .img-rounded {
+      border-radius: 4px; /* matches Max Payne card */
+    }
+
+    /* Shape-tracing outline — for transparent PNGs (Cristo, BJJ podium).
+       Stacked directional drop-shadows at 0 blur hug the actual silhouette. */
+    .img-shape-outline {
+      filter:
+        drop-shadow( 0     1.5px 0 var(--gold))
+        drop-shadow( 0    -1.5px 0 var(--gold))
+        drop-shadow( 1.5px 0     0 var(--gold))
+        drop-shadow(-1.5px 0     0 var(--gold))
+        drop-shadow( 1px   1px   0 var(--gold))
+        drop-shadow(-1px   1px   0 var(--gold))
+        drop-shadow( 1px  -1px   0 var(--gold))
+        drop-shadow(-1px  -1px   0 var(--gold));
+    }
+
+    /* ─── BJJ centered image between paragraphs ─────────────────── */
+    .bjj-img-center {
+      text-align: center;
+      margin: clamp(1.25rem, 3vw, 1.75rem) 0;
+    }
+    .bjj-img-full {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      /* circular crop + black bg blends seamlessly with dark page */
+    }
+
+    /* ─── Stat pills (volleyball / BJJ) ─────────────────────────── */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .5rem;
+      margin-top: 1rem;
+    }
+    .pill {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,168,76,.08);
+      border: 1px solid rgba(201,168,76,.25);
+      border-radius: 2rem;
+      padding: .3rem .85rem;
+    }
+
+    /* ─── Connect ────────────────────────────────────────────────── */
+    .connect {
+      padding: var(--section-gap) 0 clamp(3rem, 8vw, 5rem);
+      text-align: center;
+    }
+    .connect h2 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: #fff;
+      margin-bottom: .75rem;
+    }
+    .connect p {
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 1.75rem;
+    }
+    .btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--gold);
+      padding: .75rem 2rem;
+      border-radius: 2px;
+      transition: background .2s, transform .15s;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--gold-light);
+      color: var(--dark);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Social icons ───────────────────────────────────────────── */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.75rem;
+      margin-top: 1.75rem;
+    }
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: rgba(255,255,255,.55);
+      transition: color .2s, transform .15s;
+      text-decoration: none;
+    }
+    .social-icons a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .social-icons svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── Footer strip ───────────────────────────────────────────── */
+    .footer-strip {
+      background: var(--dark-2);
+      border-top: 1px solid rgba(201,168,76,.1);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    /* ─── Utility ────────────────────────────────────────────────── */
+    .gold { color: var(--gold); }
+    strong { font-weight: 500; color: var(--text); }
+
+    /* ─── Site Navigation ───────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10,10,10,.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,168,76,.12);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      text-decoration: none;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav-logo:hover { text-decoration: none; opacity: .85; }
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+      mix-blend-mode: screen; /* makes white bg invisible on dark nav */
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(1.25rem, 3vw, 2rem);
+    }
+    .nav-item {
+      font-size: .73rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-item:hover, .nav-item.active { color: var(--gold); text-decoration: none; }
+
+    /* Dropdown */
+    .dropdown { position: relative; }
+    .dropdown-toggle {
+      font-family: var(--sans);
+      font-size: .73rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      transition: color .2s;
+    }
+    .dropdown-toggle:hover { color: var(--gold); }
+    .caret { font-size: .6rem; }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: #181818;
+      border: 1px solid rgba(201,168,76,.2);
+      border-radius: 4px;
+      padding: 1rem 0 .4rem;
+      min-width: 130px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s, transform .18s;
+    }
+    .dropdown:hover .dropdown-menu,
+    .dropdown:focus-within .dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: .55rem 1.25rem;
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s, background .15s;
+    }
+    .dropdown-menu a:hover {
+      color: var(--gold);
+      background: rgba(201,168,76,.05);
+      text-decoration: none;
+    }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--muted);
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .nav-toggle:hover span { background: var(--gold); }
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0; right: 0;
+        background: rgba(12,12,12,.98);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        border-bottom: 1px solid rgba(201,168,76,.12);
+        padding: .5rem 0 1rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-item, .dropdown-toggle {
+        padding: .75rem clamp(1.25rem, 5vw, 2rem);
+        width: 100%;
+      }
+      .dropdown-menu {
+        position: static;
+        transform: none !important;
+        opacity: 1;
+        pointer-events: auto;
+        background: rgba(201,168,76,.04);
+        border: none;
+        border-left: 2px solid rgba(201,168,76,.15);
+        border-radius: 0;
+        margin-left: clamp(2rem, 7vw, 3rem);
+        display: none;
+        padding: .25rem 0;
+      }
+      .dropdown.open .dropdown-menu { display: block; }
+      .dropdown-menu a { padding: .5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ NAV -->
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="about.html"><img src="logo.png" alt="Aresio Souza" class="nav-logo-img" /></a>
+    <div class="nav-links" id="nav-links">
+      <a href="about.html" class="nav-item">About</a>
+      <a href="blog.html" class="nav-item">Blog</a>
+      <div class="dropdown">
+        <button class="dropdown-toggle">Lists <span class="caret">&#9662;</span></button>
+        <div class="dropdown-menu">
+          <a href="bookmarks.html">Bookmarks</a>
+          <a href="books.html">Books</a>
+          <a href="tools.html">Tools</a>
+        </div>
+      </div>
+      <a href="principles.html" class="nav-item">Principles</a>
+      <a href="tinkering.html" class="nav-item">Tinkering</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">About</p>
+    <h1>Aresio Souza</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Ca<span style="color:var(--gold)">RIO</span>ca &nbsp;&middot;&nbsp; Athlete &nbsp;&middot;&nbsp; Nerd &nbsp;&middot;&nbsp; Physical Therapist &nbsp;&middot;&nbsp; Ergonomist</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════ INTRO -->
+<div class="page-wrap">
+  <div class="intro">
+
+    <!-- Top row: image + lead paragraph side by side -->
+    <div class="intro-top">
+      <!-- Save your Cristo Redentor photo as "cristo.png" in the same folder -->
+      <div class="headshot-wrap">
+        <img class="cristo-img img-shape-outline" src="cristo.png" alt="Cristo Redentor — Rio de Janeiro" />
+      </div>
+      <div class="intro-lead">
+        <p class="lead">I was born and raised in Rio de Janeiro — a city that gives you, whether you want it or not, a relationship with the ocean, with sport, and with the idea that the body is something worth taking seriously. And when I look up, I see Him with "<em>open arms over the Guanabara Bay</em>." I've spent most of my adult life living by that idea, just in increasingly formal ways.</p>
+      </div>
+    </div>
+
+    <!-- Full-width body: flows below both image and lead paragraph -->
+    <div class="intro-body">
+      <p>In 2008, I left Brazil and moved to New York. Over the next thirteen years, I made a home in different corners of New York and New Jersey, earned a master's degree from NYU, built a career and a family, played beach volleyball on open level and professional tours, and somehow also ended up doing Portuguese voice acting for a video game. In 2021, I moved to California, which felt like the logical end of a long westward drift. Later that year, I reengaged in a journey I had lost in my teen years, and I returned to the mats to train in jiu-jitsu. More on that later!</p>
+      <p>My full name — Aresio Vinicius Alencar de Souza — is a mouthful by American standards. For here, I go by Aresio Souza. Most people call me Aresio.</p>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════ PROFESSIONAL -->
+  <div class="section">
+    <p class="section-label">Career</p>
+    <h2>What I Do</h2>
+    <p>I'm a physical therapist and ergonomist, and my work has always lived at the intersection of human performance, safety, and organizational health — the place where how people move meets how workplaces are designed, and where both of those meet the broader question of whether people are actually thriving at work.</p>
+    <p>I hold a Bachelor's and Master's degree in Physical Therapy from universities in Brazil, and a Master of Science in Ergonomics and Biomechanics from New York University — a degree I earned after arriving in the US with no guarantee things would work out, which made finishing it mean a little more than a diploma usually does.</p>
+    <p>Over a career that has moved through clinical practice, ergonomics, risk management, insurance, and worker health and wellbeing, I've come to focus on something bigger than injury prevention alone: <strong>Total Worker Health®</strong>, a framework developed by NIOSH that integrates safety, health, and wellbeing in a way that actually reflects how people experience their work lives. I've served in leadership roles building employee health programs, integrated safety strategies, and organizational systems that treat workers as whole human beings.</p>
+    <p>More recently, I've been deepening my work at the edges of what's coming next: the role of emergent technologies and AI in how we understand, monitor, and support human performance at work — a space where my background in both clinical science and organizational health puts me in an interesting position to contribute.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════ VOLLEYBALL -->
+  <div class="section">
+    <p class="section-label">On the Sand</p>
+    <h2>Beach Volleyball</h2>
+
+    <!-- AVP action photo — save as beach-volleyball.jpg in the same folder -->
+    <div class="bjj-img-center">
+      <img class="bjj-img-full img-gold-border img-rounded" src="beach-volleyball.jpg" alt="AVP Pro Beach Tour — New York City" />
+    </div>
+
+    <p><em style="color:var(--gold)">Yes, it's me jumping to the sky to spike that ball!</em> Beach volleyball came naturally to anyone who grew up in Rio. I had the opportunity to play with and against the best athletes there, and I wanted to do the same here, this time as a competitive hobbyist. Playing as an adult in a country with a mature infrastructure for the sport was a different experience entirely. I have played many local tournaments since 2009 and have earned a fair number of podium finishes (1st, 2nd, and 3rd). I competed in the AVP Pro Beach Tour and the AVP Young Guns series — playing tournaments in Brooklyn, New York City, Atlantic City, and Point Pleasant — and reached a best AVP finish of <strong>16th</strong> once.</p>
+    <p>Competing alongside professional players as an immigrant who came to the sport late in America is one of the things I'm most quietly proud of.</p>
+    <div class="pills">
+      <span class="pill">AVP Pro Tour</span>
+      <span class="pill">AVP Young Guns</span>
+      <span class="pill">Best finish: 16th</span>
+      <span class="pill">2009 – 2017</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ BJJ -->
+  <div class="section">
+    <p class="section-label">On the Mat</p>
+    <h2>Brazilian Jiu-Jitsu</h2>
+
+    <p>I train Brazilian Jiu-Jitsu and hold a Brown belt — a grade that represents years of consistent, humbling, and occasionally bruising dedication. I've competed at multiple levels and earned titles along the way. But the most important lesson learned is the discipline and grit that life also requires from us. More than titles and belts!</p>
+
+    <!-- Podium image centered between paragraphs, full width -->
+    <div class="bjj-img-center">
+      <img class="bjj-img-full img-shape-outline" src="bjj-podium.png" alt="IBJJF World Master 2025 — podium" />
+    </div>
+
+    <p>Most recently, I placed <strong>3rd at the IBJJF World Masters Championship</strong>, a result that felt particularly meaningful given the quality of the field and what it took to get there. The World Masters brings together athletes who've chosen the long road in this sport. I'm glad to be one of them.</p>
+
+    <div class="pills">
+      <span class="pill">Brown Belt</span>
+      <span class="pill">IBJJF World Masters — 3rd Place</span>
+      <span class="pill">Multiple Titles &amp; Failures</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ MAX PAYNE -->
+  <div class="section">
+    <p class="section-label">One Unexpected Credit</p>
+    <h2>Max Payne 3</h2>
+    <p>In 2012, I provided Portuguese voiceover for <em>Max Payne 3</em> — Rockstar Games' noir action title set largely in São Paulo. I voiced "The Local Population," which sounds modest until you learn that Rockstar made a deliberate, well-documented effort to cast <strong>authentic Brazilian Portuguese speakers</strong> for the game's Brazilian setting.</p>
+    <div class="card">
+      <p>It's a small credit on an <a href="https://www.imdb.com/name/nm5061386/" target="_blank" rel="noopener">IMDB page</a> I'm genuinely happy exists — a reminder that a life lived across cultures opens doors you'd never think to knock on.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ LANGUAGES -->
+  <div class="section">
+    <p class="section-label">Two Languages, One Life</p>
+    <h2>Bridging Cultures</h2>
+    <p>Portuguese is the language I dream in. English is the language I argue in. Living between two cultures has shaped how I think about communication, how I show up for patients and colleagues from different backgrounds, and why making Portuguese-language resources in healthcare has always felt less like a professional choice and more like a personal one.</p>
+    <p>That includes coordinating the Portuguese translation of the <strong>PhysioU app</strong> &#x2014; making its clinical resources accessible to practitioners across Brazil and the Portuguese-speaking world, helping Brazilians acquire notarized translations of documents like syllabi, transcripts, birth certificates, and more. I also helped as an interpreter for medical appointments. All of it before AI! &#x1F916;</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════ CONNECT -->
+  <div class="connect">
+    <h2>Let's Connect</h2>
+    <p>Whether you want to talk ergonomics, Total Worker Health®, AI in the workplace,<br>beach volleyball, or BJJ — I'd genuinely love to hear from you.</p>
+    <a class="btn" href="https://www.linkedin.com/in/aresio-souza-4508ba18/" target="_blank" rel="noopener">View LinkedIn Profile</a>
+
+    <div class="social-icons">
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/avsouza" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/aresiosouza/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+
+      <!-- X (Twitter) -->
+      <a href="https://x.com/aresiosouza" target="_blank" rel="noopener" aria-label="X">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="none" fill="currentColor">
+          <path d="M17.751 3h3.067l-6.7 7.658L22 21h-6.172l-4.833-6.317L5.464 21H2.395l7.167-8.193L2 3h6.328l4.37 5.777L17.751 3zm-1.076 16.172h1.7L7.404 4.742H5.58l11.095 14.43z"/>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<div class="footer-strip">
+  &copy; 2026 Aresio Souza &nbsp;·&nbsp; Rio de Janeiro → New York → New Jersey → California
+</div>
+
+
+  <script>
+    // Mobile nav toggle
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle?.addEventListener('click', () => links.classList.toggle('open'));
+
+    // Mobile dropdown toggle
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (window.innerWidth <= 640) {
+          e.stopPropagation();
+          btn.closest('.dropdown').classList.toggle('open');
+        }
+      });
+    });
+
+    // Mark active page
+    const path = location.pathname.split('/').pop() || 'about.html';
+    document.querySelectorAll('.nav-item').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('active');
+    });
+  </script>
+</body>
+</html>
